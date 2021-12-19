@@ -1,8 +1,8 @@
-## fnews
+# fnews
 
 This is an app where people can filiter out the news which you are interested in. You can custom you favourte keyword to get the releated news from other news website. You don't have to spend time looking at a news article which you are not interested in and you can also share your favourite news with others.
 
-
+## Instructions
 
 1. Clone this repository
     ```
