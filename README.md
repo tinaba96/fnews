@@ -26,7 +26,4 @@ This is an app where people can filiter out the news which you are interested in
     ```
 
 1. Read the QR code with your device
-    ```
-
-
 
