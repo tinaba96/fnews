@@ -1,14 +1,26 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {StyleSheet, View, FlastList, FlatList, SafeAreaView} from 'react-native';
+import ItemList from './components/ItemList';
+import testArticles from './testData/articles';
+import Constants from 'expo-constants';
+
 
 export default function App() {
+  const [articles, setArticles] = useState(testArticles)
+  useEffect(() => {alert(Constants.manifest.extra.newsApiKey)}, [])
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <Text>リアルタイムに変更できる！w</Text>
-      <Text>面白い！w</Text>
-      <StatusBar style="auto" />
-    </View>
+    <SafeAreaView style={styles.container}>
+      <FlatList
+        data = {articles}
+        renderItem = {({ item }) => ( <ItemList title
+          image = {item.urlToImage}
+          title = {item.title}
+          author = {item.author}
+        />
+        )}
+        keyExtractor= {(item, index) => index.toString()}
+      />
+    </SafeAreaView>
   );
 }
 
@@ -16,7 +28,21 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
     justifyContent: 'center',
+  },
+  itemContainer: {
+    height: 100,
+    width: '100%',
+    borderColor: 'gray',
+    borderWidth: 1,
+    flexDirection: 'row',
+  },
+  leftContainer: {
+    backgroundColor: 'grey',
+    width: 100,
+  },
+  rightContainer: {
+    backgroundColor: 'white',
+    flex: 1,
   },
 });
