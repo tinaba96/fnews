@@ -21,6 +21,7 @@ export default ClipScreen = ({navigation}) => {
                 image = {item.urlToImage}
                 title = {item.title}
                 author = {item.author}
+                publishedAt = {item.publishedAt}
                 click = {() => navigation.navigate('Article', {article: item})}
               />
               )}

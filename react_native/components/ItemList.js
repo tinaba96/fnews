@@ -4,10 +4,10 @@ import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 
 const styles = StyleSheet.create({
   itemContainer: {
-    height: 100,
+    height: 80,
     width: '100%',
     borderColor: 'gray',
-    borderWidth: 1,
+    borderWidth: 0.5,
     flexDirection: 'row',
   },
   leftContainer: {
@@ -18,9 +18,20 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     flex: 1,
   },
+  subData: {
+    fontSize: 12,
+    color: 'blue',
+    textAlign: 'right',
+  },
+  subText: {
+    fontSize: 12,
+    color: 'gray',
+    textAlign: 'right',
+  },
 });
 
-const ItemList = ({title, image, author, click}) => {
+
+const ItemList = ({title, image, author, publishedAt, click}) => {
     return (
       <TouchableOpacity style={styles.itemContainer} onPress = {click}>
         <View style={styles.leftContainer}>
@@ -34,6 +45,7 @@ const ItemList = ({title, image, author, click}) => {
               {title}
           </Text>
           <Text style={styles.subText}>{author}</Text>
+          <Text style={styles.subData}>{publishedAt}</Text>
         </View>
       </TouchableOpacity>
     )
