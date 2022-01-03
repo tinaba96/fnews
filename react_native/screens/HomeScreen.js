@@ -8,6 +8,8 @@ import axios from 'axios';
 import DropDownPicker from 'react-native-dropdown-picker';
 
 category = '';
+// const URL = `https://newsapi.org/v2/everything?q=arsenal&apiKey=${Constants.manifest.extra.newsApiKey}`
+
 const URL = `https://newsapi.org/v2/top-headlines?country=jp&category=${category}&apiKey=${Constants.manifest.extra.newsApiKey}`
 
 

@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "app",
-    "slug": "app",
+    "name": "fnews",
+    "slug": "fnews",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -23,13 +23,16 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.tinaba.fnews"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
-      "newsApiKey" : "2a775c63c68a4c6588bd617bb903dee5"
-    }
+      "newsApiKey": "2a775c63c68a4c6588bd617bb903dee5"
+    },
+    "description": "",
+    "githubUrl": "https://github.com/tinaba96/fnews"
   }
 }
