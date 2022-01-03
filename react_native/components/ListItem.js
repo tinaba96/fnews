@@ -23,9 +23,13 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: "gray",
   },
+  subData: {
+    fontSize: 12,
+    textAlign: "right",
+  },
 });
 
-const ListItems = ({ imageUrl, author, title, onPress }) => {
+const ListItems = ({ imageUrl, author, publishedAt, title, onPress }) => {
   return (
     <TouchableOpacity style={styles.itemContainer} onPress={onPress}>
       <View style={styles.leftContainer}>
@@ -36,6 +40,7 @@ const ListItems = ({ imageUrl, author, title, onPress }) => {
           {title}
         </Text>
         <Text style={styles.subText}>{author}</Text>
+        <Text style={styles.subData}>{publishedAt}</Text>
       </View>
     </TouchableOpacity>
   );
