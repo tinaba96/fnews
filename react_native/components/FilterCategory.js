@@ -1,35 +1,47 @@
-import React, {useState, Component } from 'react';
+import React, {useState, useEffect} from 'react';
 import {StyleSheet, View, Text, TextInput } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
+import axios from 'axios';
  
 
-export default class App extends Component {
+const FilterCategory = () => {
 
-
-  render() {
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(null);
+  const [items, setItems] = useState([
+    {label: 'business', value: 'business'},
+    {label: 'entertainment', value: 'entertainment'},
+    {label: 'general', value: 'general'},
+    {label: 'health', value: 'health'},
+    {label: 'science', value: 'science'},
+    {label: 'sports', value: 'sports'},
+    {label: 'technology', value: 'technology'}
+  ])
+  category = value;
+        const URL = `https://newsapi.org/v2/top-headlines?country=jp&category=${category}&apiKey=${Constants.manifest.extra.newsApiKey}`
+        
+        const test = async () => {
+          try {
+            const response = await axios.get(URL);
+            setArticles(response.data.articles)
+          } catch (error) {
+            console.error(error)
+          };
 
       return (
-        <View style={styles.container}>
           <DropDownPicker
-            open={open}
-            value={value}
-            items={items}
-            // setOpen={setOpen}
-            // setValue={setValue}
-            // setItems={setItems}
-          />
-            {/* <Text style={styles.formLabel}>フィルタ</Text>
-            <TextInput
-              style={styles.formControl}
-              value=""
-              placeholder="カテゴリを入力"
-              onChangeText={t => this.setState({ category: t })}
-            /> */}
-          {/* <Text>{this.state.category}</Text> */}
-        </View>
+      open={open}
+      value={value}
+      items={items}
+      setOpen={setOpen}
+      setValue={setValue}
+      setItems={setItems}
+    />
       );
-  }
 }
+}
+
+
 const styles = StyleSheet.create({
   container: {
     paddingTop: 15,
@@ -55,3 +67,5 @@ const styles = StyleSheet.create({
     borderWidth: 1
   }
 });
+
+export default FilterCategory
