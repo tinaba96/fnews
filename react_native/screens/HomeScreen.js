@@ -1,10 +1,9 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {TextInput, StyleSheet, View, FlastList, FlatList, SafeAreaView, Text} from 'react-native';
 import ItemList from '../components/ItemList';
-import FilterCategory from '../components/FilterCategory';
+// import FilterCategory from '../components/FilterCategory';
 import Constants from 'expo-constants';
 import axios from 'axios';
-import {WebView} from 'react-native-webview';
 import DropDownPicker from 'react-native-dropdown-picker';
 
 category = '';
@@ -12,7 +11,6 @@ category = '';
 // const URL = `https://newsapi.org/v2/top-headlines?country=jp&language=en&category=sports&apiKey=${Constants.manifest.extra.newsApiKey}`
 const URL = `https://newsapi.org/v2/top-headlines?country=jp&category=${category}&apiKey=${Constants.manifest.extra.newsApiKey}`
 
-console.log({category})
 
 export default HomeScreen = ({navigation}) => {
 
@@ -22,13 +20,13 @@ export default HomeScreen = ({navigation}) => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
   const [items, setItems] = useState([
-    {label: 'business', value: 'business'},
-    {label: 'entertainment', value: 'entertainment'},
-    {label: 'general', value: 'general'},
-    {label: 'health', value: 'health'},
-    {label: 'science', value: 'science'},
-    {label: 'sports', value: 'sports'},
-    {label: 'technology', value: 'technology'}
+    {label: 'ビジネス', value: 'business'},
+    {label: 'エンターテイメント', value: 'entertainment'},
+    {label: '一般', value: 'general'},
+    {label: '健康', value: 'health'},
+    {label: '科学', value: 'science'},
+    {label: 'スポーツ', value: 'sports'},
+    {label: 'テクノロジー', value: 'technology'}
   ]);
 
   const fetchArticles = async () => {
@@ -39,11 +37,14 @@ export default HomeScreen = ({navigation}) => {
       console.error(error)
     }
   }
-
   
   return (
     <SafeAreaView style={styles.container}>
-      {/* <FilterCategory/> */}
+      {/* <FilterCategory
+      /> */}
+      <Text>
+        フィルタリングする項目を選んでください。
+      </Text>
       <DropDownPicker
       open={open}
       value={value}
@@ -52,9 +53,17 @@ export default HomeScreen = ({navigation}) => {
       setValue={setValue}
       setItems={setItems}
       onChangeValue={(value) => {
-        console.log(value);
-        category = value
-        webviewRef.current.reload();
+        category = value;
+        const URL = `https://newsapi.org/v2/top-headlines?country=jp&category=${category}&apiKey=${Constants.manifest.extra.newsApiKey}`
+        const test = async () => {
+          try {
+            const response = await axios.get(URL);
+            setArticles(response.data.articles)
+          } catch (error) {
+            console.error(error)
+          }
+      }
+      test()
       }}
     />
       <FlatList
