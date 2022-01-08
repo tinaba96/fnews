@@ -1,7 +1,6 @@
 import React from 'react';
 import {StyleSheet, TouchableOpacity} from 'react-native';
-import {FontAwesome} from '@expo/vector-icons';
-
+import {Ionicons} from '@expo/vector-icons'
 const styles = StyleSheet.create({
   container: {
     padding: 5,
@@ -9,10 +8,10 @@ const styles = StyleSheet.create({
 });
 
 const ClipButton = ({click, enabled}) => {
-  const name = enabled ? 'bookmark' : 'bookmark-o';
+  const name = enabled ? 'ios-bookmarks' : 'ios-bookmarks-outline'
   return (
     <TouchableOpacity onPress={click} style={styles.container}>
-      <FontAwesome name={name} size={40} color="gray" />
+      <Ionicons name={name} size={40} color="gray" />
     </TouchableOpacity>
   );
 };

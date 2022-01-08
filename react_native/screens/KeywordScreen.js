@@ -1,14 +1,14 @@
 import React, {useState, useEffect, useRef} from 'react';
-import {TextInput, StyleSheet, View, FlastList, FlatList, SafeAreaView, Text, RefreshControl, AsyncStorage} from 'react-native';
+import {TextInput, StyleSheet, View, FlastList, FlatList, SafeAreaView, Text, RefreshControl, Button} from 'react-native';
 import ItemList from '../components/ItemList';
 // import FilterCategory from '../components/FilterCategory';
 import Loading from '../components/Loading';
 import Constants from 'expo-constants';
 import axios from 'axios';
-import DropDownPicker from 'react-native-dropdown-picker';
 
-category = '';
-const URL = `https://newsapi.org/v2/top-headlines?country=jp&sortBy=publishedAt&category=${category}&apiKey=${Constants.manifest.extra.newsApiKey}`
+keyword = null
+// const URL = `https://newsapi.org/v2/everything?q=コロナ&sortBy=publishedAt&apiKey=${Constants.manifest.extra.newsApiKey}`
+const URL = `https://newsapi.org/v2/everything?q=${keyword}&sortBy=publishedAt&apiKey=${Constants.manifest.extra.newsApiKey}`
 
 
 export default HomeScreen = ({navigation}) => {
@@ -25,20 +25,9 @@ export default HomeScreen = ({navigation}) => {
     setLoading(false)
   }, []);
 
-  const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(null);
-  const [items, setItems] = useState([
-    {label: 'ビジネス', value: 'business'},
-    {label: 'エンターテイメント', value: 'entertainment'},
-    {label: '一般', value: 'general'},
-    {label: '健康', value: 'health'},
-    {label: '科学', value: 'science'},
-    {label: 'スポーツ', value: 'sports'},
-    {label: 'テクノロジー', value: 'technology'}
-  ]);
 
   const fetchArticles = async (page) => {
-    const URL = `https://newsapi.org/v2/top-headlines?country=jp&sortBy=publishedAt&category=${category}&apiKey=${Constants.manifest.extra.newsApiKey}`
+    const URL = `https://newsapi.org/v2/everything?q=${keyword}&sortBy=publishedAt&apiKey=${Constants.manifest.extra.newsApiKey}`
     try {
       const response = await axios.get(`${URL}&page=${page}`);
       if ( response.data.articles.length > 0){
@@ -68,41 +57,42 @@ export default HomeScreen = ({navigation}) => {
     await fetchArticles(1)
     setRefreshing(false)
   }
+
+  const [text, onChangeText] = React.useState("");
+  
+  const search = () => {
+    keyword = text
+    const URL = `https://newsapi.org/v2/everything?q=${keyword}&sortBy=publishedAt&apiKey=${Constants.manifest.extra.newsApiKey}`
+    pageRef.current = 1;
+    const filter = async (page) => {
+      setLoading(true)
+      try {
+        const response = await axios.get(`${URL}&page=1`);
+        setArticles(response.data.articles)
+      } catch (error) {
+        console.error(error)
+      }
+      setLoading(false)
+  }
+    filter()
+    onRefresh()
+  }
   
   return (
     <SafeAreaView style={styles.container}>
-      {/* <FilterCategory
-      /> */}
-      <Text style={styles.filter}>
-        フィルタリングする項目を選んでください。
+      <Text style={styles.keywordText}>
+      フィルタリングするキーワードを入力してください。
       </Text>
-      <View style={styles.drop}>
-      <DropDownPicker
-      placeholder="項目を選択"
-      open={open}
-      value={value}
-      items={items}
-      setOpen={setOpen}
-      setValue={setValue}
-      setItems={setItems}
-      onChangeValue={(value) => {
-        category = value;
-        const URL = `https://newsapi.org/v2/top-headlines?country=jp&sortBy=publishedAt&category=${category}&apiKey=${Constants.manifest.extra.newsApiKey}`
-        pageRef.current = 1
-        const filter = async (page) => {
-          setLoading(true)
-          try {
-            const response = await axios.get(`${URL}&page=1`);
-            setArticles(response.data.articles)
-          } catch (error) {
-            console.error(error)
-          }
-          setLoading(false)
-      }
-      filter()
-      onRefresh()
-      }}
-    />
+      <View  style = {styles.keyword }>
+      <TextInput
+        style={styles.input}
+        onChangeText={onChangeText}
+        value={text}
+        placeholder="ここに入力（言語不問）"
+      />
+      <View style = {styles.button }>
+      <Button onPress = {search} size={40} title={'フィルタ'} />
+      </View>
       </View>
       {loading && <Loading />}
       <FlatList
@@ -150,16 +140,41 @@ const styles = StyleSheet.create({
   },
   filter: {
     paddingTop: 15,
-    paddingBottom: 15,
-    paddingLeft: 10,
+    paddingBottom: 10,
   },
   flat: {
     paddingTop: 10,
   },
-  drop: {
-    paddingRight: 10,
-    paddingLeft: 10,
-    zIndex: 10,
-    marginBottom: 10,
+  keyword: {
+    flexDirection: "row",
+    justifyContent: 'space-between',
   },
+  input: {
+    height: 40,
+    width: 250,
+    margin: 12,
+    borderWidth: 1,
+    padding: 10,
+  },
+  button: {
+      backgroundColor: "lightgray",
+      shadowColor: "black",
+      shadowOffset: {
+        height: 2,
+        width: 2 
+      },
+      shadowRadius: 2,
+      shadowOpacity: 0.8,
+      marginTop: 10,
+      marginBottom: 10,
+      marginLeft: 1,
+      marginRight: 40,
+      width: 130,
+      justifyContent: 'center'
+  },
+  keywordText: {
+    paddingTop: 15,
+    paddingBottom: 5,
+    paddingLeft: 10,
+  }
 });
