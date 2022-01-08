@@ -99,6 +99,7 @@ export default HomeScreen = ({navigation}) => {
           }
           setLoading(false)
       }
+      onRefresh()
       filter()
       onRefresh()
       }}
