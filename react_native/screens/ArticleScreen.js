@@ -84,6 +84,10 @@ export default ArticleScreen = ({route}) => {
     }
     }
 
+    bannerError = () => {
+        console.log("Ad Fail error")
+    }
+
     return (
         <SafeAreaView style = {styles.container } >
             <View  style = {styles.button }>
@@ -102,7 +106,6 @@ export default ArticleScreen = ({route}) => {
                 <AdMobBanner
                 adUnitID={
                     __DEV__ ? "ca-app-pub-3940256099942544/6300978111" // テスト広告
-                    // __DEV__ ? "ca-app-pub-4457266038892094~9364956806"
                     : Platform.select({
                     ios: "ca-app-pub-4457266038892094/7373218289",
                     android: "a-app-pub-4457266038892094/6355650081",
