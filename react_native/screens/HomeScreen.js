@@ -8,7 +8,8 @@ import axios from 'axios';
 import DropDownPicker from 'react-native-dropdown-picker';
 
 category = '';
-const URL = `https://newsapi.org/v2/top-headlines?country=jp&sortBy=publishedAt&category=${category}&apiKey=${Constants.manifest.extra.newsApiKey}`
+jpEn = 'jp';
+const URL = `https://newsapi.org/v2/top-headlines?country=${jpEn}&sortBy=publishedAt&category=${category}&apiKey=${Constants.manifest.extra.newsApiKey}`
 
 
 export default HomeScreen = ({navigation}) => {
@@ -34,11 +35,18 @@ export default HomeScreen = ({navigation}) => {
     {label: '健康', value: 'health'},
     {label: '科学', value: 'science'},
     {label: 'スポーツ', value: 'sports'},
-    {label: 'テクノロジー', value: 'technology'}
+    {label: 'テクノロジー', value: 'technology'},
+    {label: 'business', value: 'business-us'},
+    {label: 'entertainment', value: 'entertainment-us'},
+    {label: 'general', value: 'general-us'},
+    {label: 'health', value: 'health-us'},
+    {label: 'science', value: 'science-us'},
+    {label: 'sports', value: 'sports-us'},
+    {label: 'technology', value: 'technology-us'}
   ]);
 
   const fetchArticles = async (page) => {
-    const URL = `https://newsapi.org/v2/top-headlines?country=jp&sortBy=publishedAt&category=${category}&apiKey=${Constants.manifest.extra.newsApiKey}`
+    const URL = `https://newsapi.org/v2/top-headlines?country=${jpEn}&sortBy=publishedAt&category=${category}&apiKey=${Constants.manifest.extra.newsApiKey}`
     try {
       const response = await axios.get(`${URL}&page=${page}`);
       if ( response.data.articles.length > 0){
@@ -86,8 +94,40 @@ export default HomeScreen = ({navigation}) => {
       setValue={setValue}
       setItems={setItems}
       onChangeValue={(value) => {
-        category = value;
-        const URL = `https://newsapi.org/v2/top-headlines?country=jp&sortBy=publishedAt&category=${category}&apiKey=${Constants.manifest.extra.newsApiKey}`
+        switch (value) {
+          case 'business-us':
+            category = 'business'
+            jpEn = 'us';
+            break;
+          case 'entertainment-us':
+            category = 'entertainment'
+            jpEn = 'us';
+            break;
+          case 'general-us':
+            category = 'general'
+            jpEn = 'us';
+            break;
+          case 'health-us':
+            category = 'health'
+            jpEn = 'us';
+            break;
+          case 'science-us':
+            category = 'science'
+            jpEn = 'us';
+            break;
+          case 'sports-us':
+            category = 'sports'
+            jpEn = 'us';
+            break;
+          case 'technology-us':
+            category = 'technology'
+            jpEn = 'us';
+            break;
+          default:
+            category = value
+            jpEn = 'jp';
+          }
+        const URL = `https://newsapi.org/v2/top-headlines?country=${jpEn}&sortBy=publishedAt&category=${category}&apiKey=${Constants.manifest.extra.newsApiKey}`
         pageRef.current = 1
         const filter = async (page) => {
           setLoading(true)
@@ -104,6 +144,8 @@ export default HomeScreen = ({navigation}) => {
       onRefresh()
       }}
     />
+      
+      
       </View>
       {loading && <Loading />}
       <FlatList
