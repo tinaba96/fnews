@@ -74,9 +74,12 @@ export default HomeScreen = ({navigation}) => {
       }
       setLoading(false)
   }
-    onRefresh()
     filter()
-    onRefresh()
+    setRefreshing(true)
+    setArticles([])
+    pageRef.current = 1
+    fetchedAllRef.current = false
+    setRefreshing(false)
   }
   
   return (
