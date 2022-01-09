@@ -1,11 +1,12 @@
 import React from 'react'
-import {Alert, Linking, StyleSheet, SafeAreaView, Button, Text, TouchableOpacity, Share, View } from 'react-native';
+import {Platform, Alert, Linking, StyleSheet, SafeAreaView, Button, Text, TouchableOpacity, Share, View } from 'react-native';
 import {WebView} from "react-native-webview";
 import {useDispatch, useSelector} from "react-redux";
 import {addClip, deleteClip} from "../store/actions/user";
 import ClipButton from "../components/ClipButton"
 import Loading from '../components/Loading';
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
+import { AdMobBanner } from 'expo-ads-admob';
 
 const styles = StyleSheet.create ({
     container: {
@@ -29,6 +30,9 @@ const styles = StyleSheet.create ({
             marginBottom: 10,
             marginLeft: 10,
             justifyContent: 'center'
+    },
+    admob: {
+        // flex: 1,
     }
 });
 
@@ -94,6 +98,19 @@ export default ArticleScreen = ({route}) => {
                 </View>
             </View>
             <WebView source = {{ uri: article.url }} startInLoadingState = {true} renderLoading= {() => <Loading /> }/>
+            <View  style = {styles.admob }>
+                <AdMobBanner
+                adUnitID={
+                    __DEV__ ? "ca-app-pub-3940256099942544/6300978111" // テスト広告
+                    // __DEV__ ? "ca-app-pub-4457266038892094~9364956806"
+                    : Platform.select({
+                    ios: "ca-app-pub-4457266038892094/7373218289",
+                    android: "a-app-pub-4457266038892094/6355650081",
+                    })
+                }
+                onDidFailToReceiveAdWithError={this.bannerError} 
+                />
+            </View>
         </SafeAreaView>
     )
 }
