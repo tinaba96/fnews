@@ -27,3 +27,4 @@ This is an app where people can filiter out the news which you are interested in
 
 1. Read the QR code with your device
 
+- [demo](https://drive.google.com/file/d/1AUNYq9tbRxE2jG2sBipT8neKoWkpbP7f/view?usp=sharing)
